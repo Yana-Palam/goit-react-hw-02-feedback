@@ -9,6 +9,14 @@ class App extends Component {
     bad: 0,
   };
 
+  countTotalFeedback = () => {
+    return Object.values(this.state).reduce((total, value) => total + value, 0);
+  };
+
+  countPositiveFeedbackPercentage = () => {
+    return this.state.good / this.countTotalFeedback();
+  };
+
   clickGood = () => {
     this.setState(prevState => ({ good: prevState.good + 1 }));
   };
@@ -23,6 +31,7 @@ class App extends Component {
 
   render() {
     const { good, neutral, bad } = this.state;
+    // const total = this.countTotalFeedback();
     return (
       <div
         style={{
@@ -40,7 +49,13 @@ class App extends Component {
           onNeutral={this.clickNeutral}
           onBad={this.clickBad}
         />
-        <Statistics good={good} neutral={neutral} bad={bad} />
+        <Statistics
+          good={good}
+          neutral={neutral}
+          bad={bad}
+          total={this.countTotalFeedback()}
+          positiveFeedback={this.countPositiveFeedbackPercentage()}
+        />
       </div>
     );
   }
